@@ -1,11 +1,7 @@
-// ============================================================
-//  Liquid Stopwatch — Script
-// ============================================================
 
 (() => {
   'use strict';
 
-  // ---- DOM refs ----
   const minutesEl      = document.getElementById('minutes');
   const secondsEl      = document.getElementById('seconds');
   const millisecondsEl = document.getElementById('milliseconds');
@@ -19,7 +15,6 @@
   const waterFill      = document.getElementById('waterFill');
   const colonEl        = document.querySelector('.time-colon');
 
-  // ---- State ----
   let running       = false;
   let elapsedMs     = 0;
   let startTime     = 0;
@@ -27,10 +22,8 @@
   let laps           = [];
   let lastLapMs      = 0;
 
-  // Ring constants
-  const CIRCUMFERENCE = 2 * Math.PI * 120; // r = 120
+  const CIRCUMFERENCE = 2 * Math.PI * 120;
 
-  // ---- Helpers ----
   function pad(n, len = 2) {
     return String(n).padStart(len, '0');
   }
@@ -48,7 +41,6 @@
     return `${mins}:${secs}.${centis}`;
   }
 
-  // ---- Display ----
   function updateDisplay() {
     const { mins, secs, centis } = formatTime(elapsedMs);
     minutesEl.textContent      = mins;
@@ -59,14 +51,12 @@
   }
 
   function updateRing() {
-    // One full rotation every 60 seconds
     const secondsFrac = (elapsedMs % 60000) / 60000;
     const offset = CIRCUMFERENCE - (secondsFrac * CIRCUMFERENCE);
     progressRing.style.strokeDashoffset = offset;
 
-    // Move the dot
-    const angle = secondsFrac * 360; // in degrees
-    const rad   = (angle - 90) * (Math.PI / 180); // offset by -90 to start at top
+    const angle = secondsFrac * 360;
+    const rad   = (angle - 90) * (Math.PI / 180);
     const cx    = 130 + 120 * Math.cos(rad);
     const cy    = 130 + 120 * Math.sin(rad);
     progressDot.setAttribute('cx', cx);
@@ -74,23 +64,19 @@
   }
 
   function updateWater() {
-    // Water level rises from 0→100% over 5 minutes, then stays full
     const maxMs = 5 * 60 * 1000;
     const pct   = Math.min((elapsedMs / maxMs) * 100, 100);
     waterFill.querySelector('.water-fill').style.height = pct + '%';
   }
 
-  // ---- Loop ----
   function tick() {
     elapsedMs = Date.now() - startTime;
     updateDisplay();
     animFrame = requestAnimationFrame(tick);
   }
 
-  // ---- Start / Pause ----
   function start() {
     if (running) {
-      // Pause
       running = false;
       cancelAnimationFrame(animFrame);
       startBtn.classList.add('paused');
@@ -98,7 +84,6 @@
       startBtn.querySelector('.icon-pause').style.display = 'none';
       colonEl.classList.remove('running');
     } else {
-      // Start / Resume
       running = true;
       startTime = Date.now() - elapsedMs;
       tick();
@@ -111,7 +96,6 @@
     }
   }
 
-  // ---- Reset ----
   function reset() {
     running = false;
     cancelAnimationFrame(animFrame);
@@ -133,7 +117,6 @@
     lapBtn.disabled  = true;
   }
 
-  // ---- Lap ----
   function addLap() {
     if (!running && elapsedMs === 0) return;
 
@@ -147,7 +130,6 @@
   }
 
   function renderLaps() {
-    // Find best & worst lap times (only when ≥ 2 laps)
     let bestIdx  = -1;
     let worstIdx = -1;
     if (laps.length >= 2) {
@@ -160,7 +142,6 @@
     }
 
     lapsList.innerHTML = '';
-    // Render in reverse so newest is on top
     for (let i = laps.length - 1; i >= 0; i--) {
       const l  = laps[i];
       const li = document.createElement('li');
@@ -177,16 +158,13 @@
     }
   }
 
-  // ---- Wire events ----
   startBtn.addEventListener('click', start);
   resetBtn.addEventListener('click', reset);
   lapBtn.addEventListener('click', addLap);
 
-  // ---- Init ----
   updateDisplay();
   lapBtn.disabled = true;
 
-  // Keyboard shortcuts
   document.addEventListener('keydown', (e) => {
     if (e.code === 'Space') {
       e.preventDefault();

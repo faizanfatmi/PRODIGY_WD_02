@@ -16,7 +16,6 @@
 </head>
 
 <body>
-    <!-- Liquid water background -->
     <div class="liquid-bg">
         <div class="bubble bubble-1"></div>
         <div class="bubble bubble-2"></div>
@@ -28,7 +27,6 @@
         <div class="bubble bubble-8"></div>
     </div>
 
-    <!-- Wave layers -->
     <svg class="waves" xmlns="http://www.w3.org/2000/svg" viewBox="0 24 150 28" preserveAspectRatio="none">
         <defs>
             <path id="wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
@@ -42,9 +40,7 @@
     </svg>
 
     <div class="app-container">
-        <!-- Stopwatch Card -->
         <div class="stopwatch-card">
-            <!-- Liquid ring around timer -->
             <div class="timer-ring-container">
                 <svg class="timer-ring" viewBox="0 0 260 260">
                     <defs>
@@ -66,7 +62,6 @@
                     <circle class="ring-dot" cx="130" cy="10" r="6" id="progressDot" />
                 </svg>
 
-                <!-- Water fill inside ring -->
                 <div class="water-fill-container" id="waterFill">
                     <div class="water-fill">
                         <div class="water-wave water-wave-1"></div>
@@ -74,7 +69,6 @@
                     </div>
                 </div>
 
-                <!-- Timer Display -->
                 <div class="timer-display">
                     <span class="time-segment" id="minutes">00</span>
                     <span class="time-colon">:</span>
@@ -84,7 +78,6 @@
                 </div>
             </div>
 
-            <!-- Controls -->
             <div class="controls">
                 <button class="btn btn-reset" id="resetBtn" title="Reset">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -113,7 +106,6 @@
                 </button>
             </div>
 
-            <!-- Laps List -->
             <div class="laps-container" id="lapsContainer">
                 <div class="laps-header">
                     <span>Lap</span>
